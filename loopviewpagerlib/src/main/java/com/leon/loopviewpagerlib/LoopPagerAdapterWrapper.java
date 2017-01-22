@@ -15,7 +15,7 @@ import android.view.ViewGroup;
  */
 public class LoopPagerAdapterWrapper extends PagerAdapter {
 
-    private PagerAdapter mAdapter;//用户设置进来的PagerAdapter
+    private PagerAdapter mAdapter;
 
     private SparseArray<ToDestroy> mToDestroy = new SparseArray<ToDestroy>();
 
@@ -35,11 +35,6 @@ public class LoopPagerAdapterWrapper extends PagerAdapter {
         super.notifyDataSetChanged();
     }
 
-    /**
-     * 将内部位置转换成用户位置
-     * @param position 内部位置
-     * @return
-     */
     int toRealPosition(int position) {
         int realCount = getRealCount();
         if (realCount == 0)
@@ -51,20 +46,11 @@ public class LoopPagerAdapterWrapper extends PagerAdapter {
         return realPosition;
     }
 
-    /**
-     * 
-     * @param realPosition 真实位置转换成内部位置 0 -> 1 
-     * @return
-     */
     public int toInnerPosition(int realPosition) {
         int position = (realPosition + 1);
         return position;
     }
 
-    /**
-     * 获取用户位置为0的内部位置
-     * @return
-     */
     private int getRealFirstPosition() {
         return 1;
     }
@@ -78,25 +64,15 @@ public class LoopPagerAdapterWrapper extends PagerAdapter {
         return mAdapter.getCount() + 2;
     }
 
-    /**
-     * 获取用户设置进来的adapter的大小
-     * @return
-     */
     public int getRealCount() {
         return mAdapter.getCount();
     }
 
-    /**
-     * 设置用户的adapter
-     * @return
-     */
+
     public PagerAdapter getRealAdapter() {
         return mAdapter;
     }
 
-    /**
-     * 内部instantiateItem, 转换之后回调用户adapter的instantiateItem
-     */
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         int realPosition = toRealPosition(position);

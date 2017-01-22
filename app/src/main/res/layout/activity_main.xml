@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.leon.loopviewpagerlib.LoopView
+    <com.leon.loopviewpagerlib.Banner
         android:id="@+id/loop_view"
         android:layout_width="match_parent"
         android:layout_height="180dp"
         app:enable_auto_loop="true"
         app:dot_normal_color="@android:color/white"
         app:dot_selected_color="@color/colorPrimary">
-    </com.leon.loopviewpagerlib.LoopView>
+    </com.leon.loopviewpagerlib.Banner>
 
 
 </RelativeLayout>

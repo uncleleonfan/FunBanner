@@ -21,16 +21,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-/**
- * 
- * 用户本来的位置              0 1 2 3 4
- * 内部位置                     0 1 2 3 4 5 6 (内部位置0应对应用户位置4的页面，内部位置6对应用户位置0)
- * 
- *
- */
 public class LoopViewPager extends ViewPager {
-
-    private static final String TAG = "LoopViewPager";
 
     private static final boolean DEFAULT_BOUNDARY_CASHING = true;
 
@@ -98,11 +89,9 @@ public class LoopViewPager extends ViewPager {
         return mAdapter != null ? mAdapter.toRealPosition(super.getCurrentItem()) : 0;
     }
 
-    /**
-     * 设置当前位置
-     */
+
     public void setCurrentItem(int item, boolean smoothScroll) {
-        int realItem = mAdapter.toInnerPosition(item);//将实际位置转换成内部位置
+        int realItem = mAdapter.toInnerPosition(item);
         super.setCurrentItem(realItem, smoothScroll);
     }
 
@@ -200,19 +189,7 @@ public class LoopViewPager extends ViewPager {
 	private float mDownX;
 
 	private float mDownY;
-    
-/*    *//**
-     * 当左右滑动的时候，申请父容器不要拦截我的事件
-     *//*
-    public boolean onTouchEvent(android.view.MotionEvent arg0) {
-    	//请求外部父容器不要拦截我的事件
-    	requestDisallowInterceptTouchEvent(true);
-    	return super.onTouchEvent(arg0);//super方法里面实现viewpager的拖动
-    }*/
-    
-    /**
-     * 当左右滑动的时候，申请父容器不要拦截我的事件
-     */
+
     public boolean onTouchEvent(MotionEvent ev) {
     	switch (ev.getAction()) {
     	case MotionEvent.ACTION_DOWN:
@@ -226,7 +203,6 @@ public class LoopViewPager extends ViewPager {
     		float dx = Math.abs(mDownX - moveX);//x轴变化量
     		float dy = Math.abs(mDownY - moveY);//y轴变化量
     		if (dx > dy) {
-    			//请求外部父容器不要拦截我的事件
     	    	requestDisallowInterceptTouchEvent(true);
     		}
     		break;

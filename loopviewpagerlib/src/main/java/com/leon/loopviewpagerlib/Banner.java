@@ -17,12 +17,7 @@ import com.bumptech.glide.Glide;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * 创建者: Leon
- * 创建时间: 2016/9/16 12:03
- * 描述： TODO
- */
-public class LoopView extends RelativeLayout {
+public class Banner extends RelativeLayout {
 
     private boolean mEnableAutoLoop;
     private int mLoopInterval = 3000;
@@ -40,7 +35,7 @@ public class LoopView extends RelativeLayout {
     private int mDotSelectedColor;
 
 
-    public LoopView(Context context, AttributeSet attrs) {
+    public Banner(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LoopViewStyle);
         mDotRadius = a.getDimensionPixelSize(R.styleable.LoopViewStyle_dot_radius, mDotRadius);
@@ -53,7 +48,7 @@ public class LoopView extends RelativeLayout {
         init();
     }
 
-    public LoopView(Context context) {
+    public Banner(Context context) {
         this(context, null);
     }
 
