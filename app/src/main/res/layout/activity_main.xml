@@ -12,7 +12,10 @@
         android:layout_height="180dp"
         app:enable_auto_loop="true"
         app:dot_normal_color="@android:color/white"
-        app:dot_selected_color="@color/colorPrimary">
+        app:dot_selected_color="@color/colorPrimary"
+        app:indicator_padding="20dp"
+        app:indicator_background_color="#30000000"
+        app:show_indicator="true">
     </com.leon.loopviewpagerlib.Banner>
 
 

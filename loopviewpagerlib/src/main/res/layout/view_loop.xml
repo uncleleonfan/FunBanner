@@ -19,7 +19,6 @@
         android:padding="10dp"
         app:strokeWidth="0dp"
         app:pageColor="@android:color/white"
-        app:fillColor="@android:color/holo_blue_dark"
-        android:background="#30000000"/>
+        app:fillColor="@android:color/holo_blue_dark"/>
 
 </RelativeLayout>
