@@ -26,6 +26,70 @@ public class Banner extends RelativeLayout {
 
     CirclePageIndicator mCirclePageIndicator;
 
+    public boolean isEnableAutoLoop() {
+        return mEnableAutoLoop;
+    }
+
+    public void setEnableAutoLoop(boolean enableAutoLoop) {
+        mEnableAutoLoop = enableAutoLoop;
+    }
+
+    public int getLoopInterval() {
+        return mLoopInterval;
+    }
+
+    public void setLoopInterval(int loopInterval) {
+        mLoopInterval = loopInterval;
+    }
+
+    public int getDotRadius() {
+        return mDotRadius;
+    }
+
+    public void setDotRadius(int dotRadius) {
+        mDotRadius = dotRadius;
+    }
+
+    public int getDotNormalColor() {
+        return mDotNormalColor;
+    }
+
+    public void setDotNormalColor(int dotNormalColor) {
+        mDotNormalColor = dotNormalColor;
+    }
+
+    public int getDotSelectedColor() {
+        return mDotSelectedColor;
+    }
+
+    public void setDotSelectedColor(int dotSelectedColor) {
+        mDotSelectedColor = dotSelectedColor;
+    }
+
+    public boolean isShowIndicator() {
+        return mShowIndicator;
+    }
+
+    public void setShowIndicator(boolean showIndicator) {
+        mShowIndicator = showIndicator;
+    }
+
+    public int getPadding() {
+        return mPadding;
+    }
+
+    public void setPadding(int padding) {
+        mPadding = padding;
+    }
+
+    public int getIndicatorBackgroundColor() {
+        return mIndicatorBackgroundColor;
+    }
+
+    public void setIndicatorBackgroundColor(int indicatorBackgroundColor) {
+        mIndicatorBackgroundColor = indicatorBackgroundColor;
+    }
+
     private int mDotRadius = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, getResources().getDisplayMetrics());
     private List<String> mImages;
     private String mHost = "";
@@ -124,6 +188,5 @@ public class Banner extends RelativeLayout {
     public void setImageUrlHost(String host) {
         mHost = host;
     }
-
 
 }

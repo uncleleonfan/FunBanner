@@ -1,7 +1,7 @@
 package com.leon.loopviewpager;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.leon.loopviewpagerlib.Banner;
 
@@ -18,6 +18,5 @@ public class MainActivity extends AppCompatActivity {
         mBanner = (Banner) findViewById(R.id.loop_view);
         mBanner.setImageUrlHost("http://10.0.2.2:8080/GooglePlayServer/image?name=");
         mBanner.setImageUrls(images);
-
     }
 }
