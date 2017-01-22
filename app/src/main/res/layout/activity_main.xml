@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.leon.loopviewpagerlib.LoopView
+        android:id="@+id/loop_view"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        app:enable_auto_loop="true"
+        app:dot_normal_color="@android:color/white"
+        app:dot_selected_color="@color/colorPrimary">
+    </com.leon.loopviewpagerlib.LoopView>
+
+
+</RelativeLayout>
