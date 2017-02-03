@@ -4,20 +4,25 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
-public class Banner extends RelativeLayout {
+public class Banner extends FrameLayout {
+    private static final String TAG = "Banner";
+
 
     private boolean mEnableAutoLoop;
     private int mLoopInterval = 3000;
@@ -90,6 +95,10 @@ public class Banner extends RelativeLayout {
         mIndicatorBackgroundColor = indicatorBackgroundColor;
     }
 
+    public void setRatio(float ratio) {
+        mRatio = ratio;
+    }
+
     private int mDotRadius = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, getResources().getDisplayMetrics());
     private List<String> mImages;
     private String mHost = "";
@@ -101,6 +110,7 @@ public class Banner extends RelativeLayout {
     private boolean mShowIndicator = true;
     private int mPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
     private int mIndicatorBackgroundColor;
+    private float mRatio;
 
 
     public Banner(Context context, AttributeSet attrs) {
@@ -113,6 +123,7 @@ public class Banner extends RelativeLayout {
         mDotNormalColor = a.getColor(R.styleable.LoopViewStyle_dot_normal_color, Color.WHITE);
         mDotSelectedColor = a.getColor(R.styleable.LoopViewStyle_dot_selected_color, Color.BLUE);
         mIndicatorBackgroundColor = a.getColor(R.styleable.LoopViewStyle_indicator_background_color, Color.TRANSPARENT);
+        mRatio = a.getFloat(R.styleable.LoopViewStyle_ratio, 0);
         mPadding = a.getDimensionPixelSize(R.styleable.LoopViewStyle_indicator_padding, mPadding);
         a.recycle();
         init();
@@ -124,14 +135,27 @@ public class Banner extends RelativeLayout {
 
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_loop, this);
-        mVp = (LoopViewPager) findViewById(R.id.vp);
-        mCirclePageIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
+    }
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if (mRatio > 0) {
+            int size = MeasureSpec.getSize(widthMeasureSpec);
+            int height = (int) (size * mRatio + 0.5);
+            int changeHeightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+            super.onMeasure(widthMeasureSpec, changeHeightMeasureSpec);
+        } else {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        }
+
     }
 
     private void initViewPager() {
+        mVp = (LoopViewPager) findViewById(R.id.vp);
+        mCirclePageIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
         mVp.setEnableAutoLoop(mEnableAutoLoop);
         mVp.setLoopInterval(mLoopInterval);
         mVp.setAdapter(mPagerAdapter);
+        mVp.setBackgroundColor(Color.BLUE);
         if (mShowIndicator) {
             mCirclePageIndicator.setViewPager(mVp);
             mCirclePageIndicator.setRadius(mDotRadius);
@@ -162,9 +186,20 @@ public class Banner extends RelativeLayout {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView imageView = new ImageView(getContext());
+            int alpha = 255;
+            int red = 30 + new Random().nextInt(190);
+            int green = 30 + new Random().nextInt(190);
+            int blue = 30 + new Random().nextInt(190);
+            int color = Color.argb(alpha, red, green, blue);
+            imageView.setBackgroundColor(color);
+            ViewGroup.LayoutParams layoutParams = new ViewPager.LayoutParams();
+            layoutParams.width = getWidth();
+            layoutParams.height = getHeight();
+            Log.d(TAG, "instantiateItem: " + layoutParams.width + " " + layoutParams.height);
+            imageView.setLayoutParams(layoutParams);
             String url = mHost + mImages.get(position);
-            Glide.with(getContext()).load(url).centerCrop().into(imageView);
             container.addView(imageView);
+            Glide.with(getContext()).load(url).into(imageView);
             return imageView;
         }
 

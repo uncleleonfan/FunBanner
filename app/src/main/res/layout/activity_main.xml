@@ -4,18 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <com.leon.loopviewpagerlib.Banner
         android:id="@+id/loop_view"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="wrap_content"
         app:enable_auto_loop="true"
         app:dot_normal_color="@android:color/white"
         app:dot_selected_color="@color/colorPrimary"
         app:indicator_padding="20dp"
         app:indicator_background_color="#30000000"
-        app:show_indicator="true">
+        app:show_indicator="true"
+        app:ratio="0.377"
+        android:background="@color/colorAccent">
     </com.leon.loopviewpagerlib.Banner>
 
 

@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     
     <com.leon.loopviewpagerlib.LoopViewPager
         android:id="@+id/vp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
     </com.leon.loopviewpagerlib.LoopViewPager>
     
     <com.leon.loopviewpagerlib.CirclePageIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
         android:padding="10dp"
         app:strokeWidth="0dp"
         app:pageColor="@android:color/white"
         app:fillColor="@android:color/holo_blue_dark"/>
 
-</RelativeLayout>
+</merge>
