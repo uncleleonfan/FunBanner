@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +16,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
-public class Banner extends FrameLayout {
+public class FunBanner extends FrameLayout {
     private static final String TAG = "Banner";
 
 
@@ -113,7 +110,7 @@ public class Banner extends FrameLayout {
     private float mRatio;
 
 
-    public Banner(Context context, AttributeSet attrs) {
+    public FunBanner(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LoopViewStyle);
         mDotRadius = a.getDimensionPixelSize(R.styleable.LoopViewStyle_dot_radius, mDotRadius);
@@ -129,7 +126,7 @@ public class Banner extends FrameLayout {
         init();
     }
 
-    public Banner(Context context) {
+    public FunBanner(Context context) {
         this(context, null);
     }
 
@@ -155,7 +152,6 @@ public class Banner extends FrameLayout {
         mVp.setEnableAutoLoop(mEnableAutoLoop);
         mVp.setLoopInterval(mLoopInterval);
         mVp.setAdapter(mPagerAdapter);
-        mVp.setBackgroundColor(Color.BLUE);
         if (mShowIndicator) {
             mCirclePageIndicator.setViewPager(mVp);
             mCirclePageIndicator.setRadius(mDotRadius);
@@ -186,20 +182,13 @@ public class Banner extends FrameLayout {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView imageView = new ImageView(getContext());
-            int alpha = 255;
-            int red = 30 + new Random().nextInt(190);
-            int green = 30 + new Random().nextInt(190);
-            int blue = 30 + new Random().nextInt(190);
-            int color = Color.argb(alpha, red, green, blue);
-            imageView.setBackgroundColor(color);
-            ViewGroup.LayoutParams layoutParams = new ViewPager.LayoutParams();
-            layoutParams.width = getWidth();
-            layoutParams.height = getHeight();
-            Log.d(TAG, "instantiateItem: " + layoutParams.width + " " + layoutParams.height);
-            imageView.setLayoutParams(layoutParams);
             String url = mHost + mImages.get(position);
             container.addView(imageView);
-            Glide.with(getContext()).load(url).into(imageView);
+            if (mRatio > 0) {
+                Glide.with(getContext()).load(url).into(imageView);
+            } else {
+                Glide.with(getContext()).load(url).centerCrop().into(imageView);
+            }
             return imageView;
         }
 

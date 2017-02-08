@@ -6,19 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.leon.loopviewpagerlib.Banner
+    <com.leon.loopviewpagerlib.FunBanner
         android:id="@+id/loop_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         app:enable_auto_loop="true"
         app:dot_normal_color="@android:color/white"
         app:dot_selected_color="@color/colorPrimary"
         app:indicator_padding="20dp"
         app:indicator_background_color="#30000000"
         app:show_indicator="true"
-        app:ratio="0.377"
-        android:background="@color/colorAccent">
-    </com.leon.loopviewpagerlib.Banner>
+        app:ratio="0.377">
+    </com.leon.loopviewpagerlib.FunBanner>
 
 
 </RelativeLayout>
