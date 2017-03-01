@@ -16,8 +16,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mFunBanner = (FunBanner) findViewById(R.id.loop_view);
-/*        mFunBanner.setImageUrlHost("http://10.0.2.2:8080/GooglePlayServer/image?name=");
-        mFunBanner.setImageUrls(images);*/
-        mFunBanner.setImageResIds(imageResIds);
+        //设置url的host
+        mFunBanner.setImageUrlHost("http://10.0.2.2:8080/GooglePlayServer/image?name=");
+        //设置url，如果url完整，则不需要设置host
+        mFunBanner.setImageUrls(images);
+//        mFunBanner.setImageResIds(imageResIds);
     }
 }

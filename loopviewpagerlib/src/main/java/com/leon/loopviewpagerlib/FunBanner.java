@@ -19,115 +19,78 @@ import java.util.List;
 
 public class FunBanner extends FrameLayout {
     private static final String TAG = "FunBanner";
-
-
-    private boolean mEnableAutoLoop;
-    private int mLoopInterval = 3000;
-
     LoopViewPager mVp;
-
     CirclePageIndicator mCirclePageIndicator;
+    FunBannerParams mFunBannerParams = new FunBannerParams();
 
-    public boolean isEnableAutoLoop() {
-        return mEnableAutoLoop;
+    private static class FunBannerParams {
+        private boolean mEnableAutoLoop;
+        private int mLoopInterval = 3000;
+        private int mDotRadius = 0;
+        private List<String> mImageUrls;
+        private String mHost = "";
+        private int[] mImagesResIds;
+        private int mDotNormalColor;
+        private int mDotSelectedColor;
+        private boolean mShowIndicator = true;
+        private int mPadding = 0;
+        private int mIndicatorBackgroundColor;
+        private float mHeightWidthRatio;
+
+        public void apply(FunBanner funBanner) {
+            funBanner.mFunBannerParams.mEnableAutoLoop = this.mEnableAutoLoop;
+            funBanner.mFunBannerParams.mLoopInterval = this.mLoopInterval;
+            if (this.mDotRadius > 0) {
+                funBanner.mFunBannerParams.mDotRadius = this.mDotRadius;
+            }
+            if (this.mImageUrls != null) {
+                funBanner.mFunBannerParams.mImageUrls = this.mImageUrls;
+            }
+            if (this.mHost.length() > 0) {
+                funBanner.mFunBannerParams.mHost = this.mHost;
+            }
+            if (this.mImagesResIds != null) {
+                funBanner.mFunBannerParams.mImagesResIds = this.mImagesResIds;
+            }
+            if (this.mDotNormalColor != 0) {
+                funBanner.mFunBannerParams.mDotNormalColor = this.mDotNormalColor;
+            }
+            if (this.mDotSelectedColor != 0) {
+                funBanner.mFunBannerParams.mDotSelectedColor = this.mDotSelectedColor;
+            }
+            funBanner.mFunBannerParams.mShowIndicator = this.mShowIndicator;
+            if (this.mPadding > 0 ) {
+                funBanner.mFunBannerParams.mPadding = this.mPadding;
+            }
+            if (this.mIndicatorBackgroundColor != 0) {
+                funBanner.mFunBannerParams.mIndicatorBackgroundColor = this.mIndicatorBackgroundColor;
+            }
+            if (this.mHeightWidthRatio != 0) {
+                funBanner.mFunBannerParams.mHeightWidthRatio = this.mHeightWidthRatio;
+            }
+        }
     }
-
-    public void setEnableAutoLoop(boolean enableAutoLoop) {
-        mEnableAutoLoop = enableAutoLoop;
-    }
-
-    public int getLoopInterval() {
-        return mLoopInterval;
-    }
-
-    public void setLoopInterval(int loopInterval) {
-        mLoopInterval = loopInterval;
-    }
-
-    public int getDotRadius() {
-        return mDotRadius;
-    }
-
-    public void setDotRadius(int dotRadius) {
-        mDotRadius = dotRadius;
-    }
-
-    public int getDotNormalColor() {
-        return mDotNormalColor;
-    }
-
-    public void setDotNormalColor(int dotNormalColor) {
-        mDotNormalColor = dotNormalColor;
-    }
-
-    public int getDotSelectedColor() {
-        return mDotSelectedColor;
-    }
-
-    public void setDotSelectedColor(int dotSelectedColor) {
-        mDotSelectedColor = dotSelectedColor;
-    }
-
-    public boolean isShowIndicator() {
-        return mShowIndicator;
-    }
-
-    public void setShowIndicator(boolean showIndicator) {
-        mShowIndicator = showIndicator;
-    }
-
-    public int getPadding() {
-        return mPadding;
-    }
-
-    public void setPadding(int padding) {
-        mPadding = padding;
-    }
-
-    public int getIndicatorBackgroundColor() {
-        return mIndicatorBackgroundColor;
-    }
-
-    public void setIndicatorBackgroundColor(int indicatorBackgroundColor) {
-        mIndicatorBackgroundColor = indicatorBackgroundColor;
-    }
-
-    public void setRatio(float ratio) {
-        mRatio = ratio;
-    }
-
-    private int mDotRadius = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, getResources().getDisplayMetrics());
-    private List<String> mImages;
-    private String mHost = "";
-
-    private int[] mImagesResIds;
-
-    private int mDotNormalColor;
-    private int mDotSelectedColor;
-
-    private boolean mShowIndicator = true;
-    private int mPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
-    private int mIndicatorBackgroundColor;
-    private float mRatio;
 
 
     public FunBanner(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LoopViewStyle);
-        mDotRadius = a.getDimensionPixelSize(R.styleable.LoopViewStyle_dot_radius, mDotRadius);
-        mEnableAutoLoop = a.getBoolean(R.styleable.LoopViewStyle_enable_auto_loop, false);
-        mLoopInterval = a.getInt(R.styleable.LoopViewStyle_loop_interval, mLoopInterval);
-        mShowIndicator = a.getBoolean(R.styleable.LoopViewStyle_show_indicator, true);
-        mDotNormalColor = a.getColor(R.styleable.LoopViewStyle_dot_normal_color, Color.WHITE);
-        mDotSelectedColor = a.getColor(R.styleable.LoopViewStyle_dot_selected_color, Color.BLUE);
-        mIndicatorBackgroundColor = a.getColor(R.styleable.LoopViewStyle_indicator_background_color, Color.TRANSPARENT);
-        mRatio = a.getFloat(R.styleable.LoopViewStyle_ratio, 0);
-        mPadding = a.getDimensionPixelSize(R.styleable.LoopViewStyle_indicator_padding, mPadding);
+        mFunBannerParams.mDotRadius = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, getResources().getDisplayMetrics());
+        mFunBannerParams.mDotRadius = a.getDimensionPixelSize(R.styleable.LoopViewStyle_dot_radius, mFunBannerParams.mDotRadius);
+        mFunBannerParams.mEnableAutoLoop = a.getBoolean(R.styleable.LoopViewStyle_enable_auto_loop, false);
+        mFunBannerParams.mLoopInterval = a.getInt(R.styleable.LoopViewStyle_loop_interval, mFunBannerParams.mLoopInterval);
+        mFunBannerParams.mShowIndicator = a.getBoolean(R.styleable.LoopViewStyle_show_indicator, true);
+        mFunBannerParams.mDotNormalColor = a.getColor(R.styleable.LoopViewStyle_dot_normal_color, Color.WHITE);
+        mFunBannerParams.mDotSelectedColor = a.getColor(R.styleable.LoopViewStyle_dot_selected_color, Color.BLUE);
+        mFunBannerParams.mIndicatorBackgroundColor = a.getColor(R.styleable.LoopViewStyle_indicator_background_color, Color.TRANSPARENT);
+        mFunBannerParams.mHeightWidthRatio = a.getFloat(R.styleable.LoopViewStyle_height_width_ratio, 0);
+        mFunBannerParams.mPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
+        mFunBannerParams.mPadding = a.getDimensionPixelSize(R.styleable.LoopViewStyle_indicator_padding, mFunBannerParams.mPadding);
         a.recycle();
         init();
     }
 
-    public FunBanner(Context context) {
+    private FunBanner(Context context) {
         this(context, null);
     }
 
@@ -137,9 +100,9 @@ public class FunBanner extends FrameLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (mRatio > 0) {
+        if (mFunBannerParams.mHeightWidthRatio > 0) {
             int size = MeasureSpec.getSize(widthMeasureSpec);
-            int height = (int) (size * mRatio + 0.5);
+            int height = (int) (size * mFunBannerParams.mHeightWidthRatio + 0.5);
             int changeHeightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
             super.onMeasure(widthMeasureSpec, changeHeightMeasureSpec);
         } else {
@@ -151,16 +114,19 @@ public class FunBanner extends FrameLayout {
     private void initViewPager() {
         mVp = (LoopViewPager) findViewById(R.id.vp);
         mCirclePageIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
-        mVp.setEnableAutoLoop(mEnableAutoLoop);
-        mVp.setLoopInterval(mLoopInterval);
+        mVp.setEnableAutoLoop(mFunBannerParams.mEnableAutoLoop);
+        mVp.setLoopInterval(mFunBannerParams.mLoopInterval);
         mVp.setAdapter(mPagerAdapter);
-        if (mShowIndicator) {
+        if (mFunBannerParams.mShowIndicator) {
             mCirclePageIndicator.setViewPager(mVp);
-            mCirclePageIndicator.setRadius(mDotRadius);
-            mCirclePageIndicator.setPageColor(mDotNormalColor);
-            mCirclePageIndicator.setFillColor(mDotSelectedColor);
-            mCirclePageIndicator.setPadding(mPadding, mPadding, mPadding, mPadding);
-            mCirclePageIndicator.setBackgroundColor(mIndicatorBackgroundColor);
+            mCirclePageIndicator.setRadius(mFunBannerParams.mDotRadius);
+            mCirclePageIndicator.setPageColor(mFunBannerParams.mDotNormalColor);
+            mCirclePageIndicator.setFillColor(mFunBannerParams.mDotSelectedColor);
+            mCirclePageIndicator.setPadding(mFunBannerParams.mPadding,
+                    mFunBannerParams.mPadding,
+                    mFunBannerParams.mPadding,
+                    mFunBannerParams.mPadding);
+            mCirclePageIndicator.setBackgroundColor(mFunBannerParams.mIndicatorBackgroundColor);
         } else {
             mCirclePageIndicator.setVisibility(GONE);
         }
@@ -170,11 +136,11 @@ public class FunBanner extends FrameLayout {
     private PagerAdapter mPagerAdapter = new PagerAdapter() {
         @Override
         public int getCount() {
-            if (mImages != null) {
-                return mImages.size();
+            if (mFunBannerParams.mImageUrls != null) {
+                return mFunBannerParams.mImageUrls.size();
             }
-            if (mImagesResIds != null) {
-                return mImagesResIds.length;
+            if (mFunBannerParams.mImagesResIds != null) {
+                return mFunBannerParams.mImagesResIds.length;
             }
             return 0;
         }
@@ -187,12 +153,12 @@ public class FunBanner extends FrameLayout {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView imageView = new ImageView(getContext());
-            if (mImages == null) {
-                imageView.setImageResource(mImagesResIds[position]);
+            if (mFunBannerParams.mImageUrls == null) {
+                imageView.setImageResource(mFunBannerParams.mImagesResIds[position]);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             } else {
-                String url = mHost + mImages.get(position);
-                if (mRatio > 0) {
+                String url = mFunBannerParams.mHost + mFunBannerParams.mImageUrls.get(position);
+                if (mFunBannerParams.mHeightWidthRatio > 0) {
                     Glide.with(getContext()).load(url).into(imageView);
                 } else {
                     Glide.with(getContext()).load(url).centerCrop().into(imageView);
@@ -208,9 +174,8 @@ public class FunBanner extends FrameLayout {
         }
     };
 
-
     public void setImageUrls(List<String> data) {
-        mImages = data;
+        mFunBannerParams.mImageUrls = data;
         initViewPager();
     }
 
@@ -220,12 +185,97 @@ public class FunBanner extends FrameLayout {
     }
 
     public void setImageUrlHost(String host) {
-        mHost = host;
+        mFunBannerParams.mHost = host;
     }
 
     public void setImageResIds(int[] resIds) {
-        mImagesResIds = resIds;
+        mFunBannerParams.mImagesResIds = resIds;
         initViewPager();
+    }
+
+    public static class Builder  {
+
+        private final FunBannerParams mFunBannerParams;
+        private final Context mContext;
+
+        public Builder(Context context) {
+            mFunBannerParams = new FunBannerParams();
+            mContext = context;
+        }
+
+        public Builder setEnableAutoLoop(boolean enableAutoLoop) {
+            mFunBannerParams.mEnableAutoLoop = enableAutoLoop;
+            return this;
+        }
+
+        public Builder setLoopInterval(int loopInterval) {
+            mFunBannerParams.mLoopInterval = loopInterval;
+            return this;
+        }
+
+        public Builder setDotRadius(int dotRadius) {
+            mFunBannerParams.mDotRadius = dotRadius;
+            return this;
+        }
+
+        public Builder setDotNormalColor(int dotNormalColor) {
+            mFunBannerParams.mDotNormalColor = dotNormalColor;
+            return this;
+        }
+
+        public Builder setDotSelectedColor(int dotSelectedColor) {
+            mFunBannerParams.mDotSelectedColor = dotSelectedColor;
+            return this;
+        }
+
+        public Builder setShowIndicator(boolean showIndicator) {
+            mFunBannerParams.mShowIndicator = showIndicator;
+            return this;
+        }
+
+        public Builder setPadding(int padding) {
+            mFunBannerParams.mPadding = padding;
+            return this;
+        }
+
+
+        public Builder setIndicatorBackgroundColor(int indicatorBackgroundColor) {
+            mFunBannerParams.mIndicatorBackgroundColor = indicatorBackgroundColor;
+            return this;
+        }
+
+        public Builder setHeightWidthRatio(float ratio) {
+            mFunBannerParams.mHeightWidthRatio = ratio;
+            return this;
+        }
+
+        public Builder setImageResIds(int[] resIds) {
+            mFunBannerParams.mImagesResIds = resIds;
+            return this;
+        }
+
+        public Builder setImageUrlHost(String host) {
+            mFunBannerParams.mHost = host;
+            return this;
+        }
+
+        public Builder setImageUrls(List<String> data) {
+            mFunBannerParams.mImageUrls = data;
+            return this;
+        }
+
+        public Builder setImageUrls(String[] data) {
+            List<String> list = Arrays.asList(data);
+            setImageUrls(list);
+            return this;
+        }
+
+        public FunBanner build() {
+            FunBanner funBanner = new FunBanner(mContext);
+            mFunBannerParams.apply(funBanner);
+            funBanner.initViewPager();
+            return funBanner;
+        }
     }
 
 }
