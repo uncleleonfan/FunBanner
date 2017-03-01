@@ -9,7 +9,7 @@
     <com.leon.loopviewpagerlib.FunBanner
         android:id="@+id/loop_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         app:enable_auto_loop="true"
         app:dot_normal_color="@android:color/white"
         app:dot_selected_color="@color/colorPrimary"

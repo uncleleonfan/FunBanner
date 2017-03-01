@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FunBanner extends FrameLayout {
-    private static final String TAG = "Banner";
+    private static final String TAG = "FunBanner";
 
 
     private boolean mEnableAutoLoop;
@@ -100,6 +100,7 @@ public class FunBanner extends FrameLayout {
     private List<String> mImages;
     private String mHost = "";
 
+    private int[] mImagesResIds;
 
     private int mDotNormalColor;
     private int mDotSelectedColor;
@@ -133,6 +134,7 @@ public class FunBanner extends FrameLayout {
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_loop, this);
     }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (mRatio > 0) {
@@ -168,10 +170,13 @@ public class FunBanner extends FrameLayout {
     private PagerAdapter mPagerAdapter = new PagerAdapter() {
         @Override
         public int getCount() {
-            if (mImages == null) {
-                return 0;
+            if (mImages != null) {
+                return mImages.size();
             }
-            return mImages.size();
+            if (mImagesResIds != null) {
+                return mImagesResIds.length;
+            }
+            return 0;
         }
 
         @Override
@@ -182,19 +187,24 @@ public class FunBanner extends FrameLayout {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView imageView = new ImageView(getContext());
-            String url = mHost + mImages.get(position);
-            container.addView(imageView);
-            if (mRatio > 0) {
-                Glide.with(getContext()).load(url).into(imageView);
+            if (mImages == null) {
+                imageView.setImageResource(mImagesResIds[position]);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             } else {
-                Glide.with(getContext()).load(url).centerCrop().into(imageView);
+                String url = mHost + mImages.get(position);
+                if (mRatio > 0) {
+                    Glide.with(getContext()).load(url).into(imageView);
+                } else {
+                    Glide.with(getContext()).load(url).centerCrop().into(imageView);
+                }
             }
+            container.addView(imageView);
             return imageView;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View)object);
+            container.removeView((View) object);
         }
     };
 
@@ -211,6 +221,11 @@ public class FunBanner extends FrameLayout {
 
     public void setImageUrlHost(String host) {
         mHost = host;
+    }
+
+    public void setImageResIds(int[] resIds) {
+        mImagesResIds = resIds;
+        initViewPager();
     }
 
 }
