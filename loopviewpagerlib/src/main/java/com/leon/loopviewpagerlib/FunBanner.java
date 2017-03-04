@@ -137,19 +137,18 @@ public class FunBanner extends FrameLayout {
         mVp.setLoopInterval(mFunBannerParams.mLoopInterval);
         if (mFunBannerParams.mImageUrls != null || mFunBannerParams.mImagesResIds != null) {
             mVp.setAdapter(mPagerAdapter);
-        }
+            if (mFunBannerParams.mShowIndicator) {
+                mCirclePageIndicator.setViewPager(mVp);
+                mCirclePageIndicator.setRadius(mFunBannerParams.mDotRadius);
+                mCirclePageIndicator.setPageColor(mFunBannerParams.mDotNormalColor);
+                mCirclePageIndicator.setFillColor(mFunBannerParams.mDotSelectedColor);
+                mCirclePageIndicator.setOnPageChangeListener(mOnPageChangeListener);
+                mIndicatorBar.setMinimumHeight(mFunBannerParams.mIndicatorBarHeight);
+                mIndicatorBar.setBackgroundColor(mFunBannerParams.mIndicatorBarBackgroundColor);
 
-        if (mFunBannerParams.mShowIndicator) {
-            mCirclePageIndicator.setViewPager(mVp);
-            mCirclePageIndicator.setRadius(mFunBannerParams.mDotRadius);
-            mCirclePageIndicator.setPageColor(mFunBannerParams.mDotNormalColor);
-            mCirclePageIndicator.setFillColor(mFunBannerParams.mDotSelectedColor);
-            mCirclePageIndicator.setOnPageChangeListener(mOnPageChangeListener);
-            mIndicatorBar.setMinimumHeight(mFunBannerParams.mIndicatorBarHeight);
-            mIndicatorBar.setBackgroundColor(mFunBannerParams.mIndicatorBarBackgroundColor);
-
-        } else {
-            mCirclePageIndicator.setVisibility(GONE);
+            } else {
+                mCirclePageIndicator.setVisibility(GONE);
+            }
         }
 
         if (mFunBannerParams.mTitles != null) {
