@@ -299,6 +299,11 @@ public class FunBanner extends FrameLayout {
             return this;
         }
 
+        public Builder setIndicatorBarHeight(int height) {
+            mFunBannerParams.mIndicatorBarHeight = height;
+            return this;
+        }
+
         public Builder setHeightWidthRatio(float ratio) {
             mFunBannerParams.mHeightWidthRatio = ratio;
             return this;
