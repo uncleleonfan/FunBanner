@@ -135,7 +135,9 @@ public class FunBanner extends FrameLayout {
 
         mVp.setEnableAutoLoop(mFunBannerParams.mEnableAutoLoop);
         mVp.setLoopInterval(mFunBannerParams.mLoopInterval);
-        mVp.setAdapter(mPagerAdapter);
+        if (mFunBannerParams.mImageUrls != null || mFunBannerParams.mImagesResIds != null) {
+            mVp.setAdapter(mPagerAdapter);
+        }
 
         if (mFunBannerParams.mShowIndicator) {
             mCirclePageIndicator.setViewPager(mVp);
