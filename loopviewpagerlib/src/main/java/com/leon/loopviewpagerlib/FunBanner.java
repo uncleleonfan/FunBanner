@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -18,24 +21,28 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FunBanner extends FrameLayout {
-    private static final String TAG = "FunBanner";
     LoopViewPager mVp;
     CirclePageIndicator mCirclePageIndicator;
+    TextView mTitle;
     FunBannerParams mFunBannerParams = new FunBannerParams();
+    LinearLayout mIndicatorBar;
 
     private static class FunBannerParams {
         private boolean mEnableAutoLoop;
         private int mLoopInterval = 3000;
         private int mDotRadius = 0;
         private List<String> mImageUrls;
+        private List<String> mTitles;
         private String mHost = "";
         private int[] mImagesResIds;
         private int mDotNormalColor;
         private int mDotSelectedColor;
         private boolean mShowIndicator = true;
-        private int mPadding = 0;
-        private int mIndicatorBackgroundColor;
+        private int mTitlePadding = 0;
+        private int mIndicatorBarBackgroundColor;
         private float mHeightWidthRatio;
+        private int mIndicatorBarHeight;
+        private int mTitleColor;
 
         public void apply(FunBanner funBanner) {
             funBanner.mFunBannerParams.mEnableAutoLoop = this.mEnableAutoLoop;
@@ -59,14 +66,25 @@ public class FunBanner extends FrameLayout {
                 funBanner.mFunBannerParams.mDotSelectedColor = this.mDotSelectedColor;
             }
             funBanner.mFunBannerParams.mShowIndicator = this.mShowIndicator;
-            if (this.mPadding > 0 ) {
-                funBanner.mFunBannerParams.mPadding = this.mPadding;
+            if (this.mTitlePadding > 0 ) {
+                funBanner.mFunBannerParams.mTitlePadding = this.mTitlePadding;
             }
-            if (this.mIndicatorBackgroundColor != 0) {
-                funBanner.mFunBannerParams.mIndicatorBackgroundColor = this.mIndicatorBackgroundColor;
+            if (this.mIndicatorBarBackgroundColor != 0) {
+                funBanner.mFunBannerParams.mIndicatorBarBackgroundColor = this.mIndicatorBarBackgroundColor;
             }
             if (this.mHeightWidthRatio != 0) {
                 funBanner.mFunBannerParams.mHeightWidthRatio = this.mHeightWidthRatio;
+            }
+            if (this.mIndicatorBarHeight != 0) {
+                funBanner.mFunBannerParams.mIndicatorBarHeight = this.mIndicatorBarHeight;
+            }
+
+            if (this.mTitles != null) {
+                funBanner.mFunBannerParams.mTitles = this.mTitles;
+            }
+
+            if (this.mTitleColor != 0) {
+                funBanner.mFunBannerParams.mTitleColor = this.mTitleColor;
             }
         }
     }
@@ -82,10 +100,13 @@ public class FunBanner extends FrameLayout {
         mFunBannerParams.mShowIndicator = a.getBoolean(R.styleable.LoopViewStyle_show_indicator, true);
         mFunBannerParams.mDotNormalColor = a.getColor(R.styleable.LoopViewStyle_dot_normal_color, Color.WHITE);
         mFunBannerParams.mDotSelectedColor = a.getColor(R.styleable.LoopViewStyle_dot_selected_color, Color.BLUE);
-        mFunBannerParams.mIndicatorBackgroundColor = a.getColor(R.styleable.LoopViewStyle_indicator_background_color, Color.TRANSPARENT);
+        mFunBannerParams.mIndicatorBarBackgroundColor = a.getColor(R.styleable.LoopViewStyle_indicator_bar_background_color, Color.TRANSPARENT);
         mFunBannerParams.mHeightWidthRatio = a.getFloat(R.styleable.LoopViewStyle_height_width_ratio, 0);
-        mFunBannerParams.mPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
-        mFunBannerParams.mPadding = a.getDimensionPixelSize(R.styleable.LoopViewStyle_indicator_padding, mFunBannerParams.mPadding);
+        mFunBannerParams.mIndicatorBarHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
+        mFunBannerParams.mIndicatorBarHeight = a.getDimensionPixelSize(R.styleable.LoopViewStyle_indicator_bar_height, mFunBannerParams.mIndicatorBarHeight);
+        mFunBannerParams.mTitlePadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
+        mFunBannerParams.mTitlePadding = a.getDimensionPixelSize(R.styleable.LoopViewStyle_title_padding, mFunBannerParams.mTitlePadding);
+        mFunBannerParams.mTitleColor = a.getColor(R.styleable.LoopViewStyle_title_color, Color.WHITE);
         a.recycle();
         init();
     }
@@ -113,25 +134,59 @@ public class FunBanner extends FrameLayout {
 
     private void initViewPager() {
         mVp = (LoopViewPager) findViewById(R.id.vp);
+        mTitle = (TextView) findViewById(R.id.title);
+        mIndicatorBar = (LinearLayout) findViewById(R.id.indicator_bar);
         mCirclePageIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
+
         mVp.setEnableAutoLoop(mFunBannerParams.mEnableAutoLoop);
         mVp.setLoopInterval(mFunBannerParams.mLoopInterval);
         mVp.setAdapter(mPagerAdapter);
+
         if (mFunBannerParams.mShowIndicator) {
             mCirclePageIndicator.setViewPager(mVp);
             mCirclePageIndicator.setRadius(mFunBannerParams.mDotRadius);
             mCirclePageIndicator.setPageColor(mFunBannerParams.mDotNormalColor);
             mCirclePageIndicator.setFillColor(mFunBannerParams.mDotSelectedColor);
-            mCirclePageIndicator.setPadding(mFunBannerParams.mPadding,
-                    mFunBannerParams.mPadding,
-                    mFunBannerParams.mPadding,
-                    mFunBannerParams.mPadding);
-            mCirclePageIndicator.setBackgroundColor(mFunBannerParams.mIndicatorBackgroundColor);
+            mCirclePageIndicator.setPadding(mFunBannerParams.mTitlePadding,
+                    mFunBannerParams.mTitlePadding,
+                    mFunBannerParams.mTitlePadding,
+                    mFunBannerParams.mTitlePadding);
+            mCirclePageIndicator.setOnPageChangeListener(mOnPageChangeListener);
+            mIndicatorBar.setMinimumHeight(mFunBannerParams.mIndicatorBarHeight);
+            mIndicatorBar.setBackgroundColor(mFunBannerParams.mIndicatorBarBackgroundColor);
+
         } else {
             mCirclePageIndicator.setVisibility(GONE);
         }
 
+        if (mFunBannerParams.mTitles != null) {
+            mTitle.setVisibility(VISIBLE);
+            mTitle.setText(mFunBannerParams.mTitles.get(0));
+            mTitle.setTextColor(mFunBannerParams.mTitleColor);
+        } else {
+            mTitle.setVisibility(GONE);
+        }
+
     }
+
+    private ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            if (mFunBannerParams.mTitles != null) {
+                mTitle.setText(mFunBannerParams.mTitles.get(position));
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
 
     private PagerAdapter mPagerAdapter = new PagerAdapter() {
         @Override
@@ -164,6 +219,7 @@ public class FunBanner extends FrameLayout {
                     Glide.with(getContext()).load(url).centerCrop().into(imageView);
                 }
             }
+
             container.addView(imageView);
             return imageView;
         }
@@ -176,6 +232,18 @@ public class FunBanner extends FrameLayout {
 
     public void setImageUrls(List<String> data) {
         mFunBannerParams.mImageUrls = data;
+        initViewPager();
+    }
+
+    public void setImageUrlsAndTitles(List<String> urls, List<String> titles) {
+        mFunBannerParams.mImageUrls = urls;
+        mFunBannerParams.mTitles = titles;
+        initViewPager();
+    }
+
+    public void setImageUrlsAndTitles(String[] urls, String[] titles) {
+        mFunBannerParams.mImageUrls = Arrays.asList(urls);
+        mFunBannerParams.mTitles = Arrays.asList(titles);
         initViewPager();
     }
 
@@ -234,13 +302,13 @@ public class FunBanner extends FrameLayout {
         }
 
         public Builder setPadding(int padding) {
-            mFunBannerParams.mPadding = padding;
+            mFunBannerParams.mTitlePadding = padding;
             return this;
         }
 
 
         public Builder setIndicatorBackgroundColor(int indicatorBackgroundColor) {
-            mFunBannerParams.mIndicatorBackgroundColor = indicatorBackgroundColor;
+            mFunBannerParams.mIndicatorBarBackgroundColor = indicatorBackgroundColor;
             return this;
         }
 
@@ -267,6 +335,22 @@ public class FunBanner extends FrameLayout {
         public Builder setImageUrls(String[] data) {
             List<String> list = Arrays.asList(data);
             setImageUrls(list);
+            return this;
+        }
+
+        public Builder setTitles(List<String> titles) {
+            mFunBannerParams.mTitles = titles;
+            return this;
+        }
+
+        public Builder setTitles(String[] titles) {
+            List<String> list = Arrays.asList(titles);
+            setTitles(list);
+            return this;
+        }
+
+        public Builder setTitleColor(int color) {
+            mFunBannerParams.mTitleColor = color;
             return this;
         }
 
