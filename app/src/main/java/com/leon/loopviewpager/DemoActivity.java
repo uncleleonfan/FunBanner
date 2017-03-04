@@ -30,8 +30,9 @@ public class DemoActivity extends AppCompatActivity {
                 .setImageResIds(imageResIds)
                 .setDotSelectedColor(Color.GREEN)
                 .setHeightWidthRatio(0.5556f)
+                .setLoopInterval(5000)
+                .setEnableAutoLoop(true)
                 .setIndicatorBackgroundColor(R.color.indicator_bg)
-                .setPadding(getResources().getDimensionPixelSize(R.dimen.padding))
                 .build();
         frameLayout.addView(funBanner);
     }

@@ -38,7 +38,6 @@ public class FunBanner extends FrameLayout {
         private int mDotNormalColor;
         private int mDotSelectedColor;
         private boolean mShowIndicator = true;
-        private int mTitlePadding = 0;
         private int mIndicatorBarBackgroundColor;
         private float mHeightWidthRatio;
         private int mIndicatorBarHeight;
@@ -66,9 +65,7 @@ public class FunBanner extends FrameLayout {
                 funBanner.mFunBannerParams.mDotSelectedColor = this.mDotSelectedColor;
             }
             funBanner.mFunBannerParams.mShowIndicator = this.mShowIndicator;
-            if (this.mTitlePadding > 0 ) {
-                funBanner.mFunBannerParams.mTitlePadding = this.mTitlePadding;
-            }
+
             if (this.mIndicatorBarBackgroundColor != 0) {
                 funBanner.mFunBannerParams.mIndicatorBarBackgroundColor = this.mIndicatorBarBackgroundColor;
             }
@@ -104,8 +101,6 @@ public class FunBanner extends FrameLayout {
         mFunBannerParams.mHeightWidthRatio = a.getFloat(R.styleable.LoopViewStyle_height_width_ratio, 0);
         mFunBannerParams.mIndicatorBarHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
         mFunBannerParams.mIndicatorBarHeight = a.getDimensionPixelSize(R.styleable.LoopViewStyle_indicator_bar_height, mFunBannerParams.mIndicatorBarHeight);
-        mFunBannerParams.mTitlePadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
-        mFunBannerParams.mTitlePadding = a.getDimensionPixelSize(R.styleable.LoopViewStyle_title_padding, mFunBannerParams.mTitlePadding);
         mFunBannerParams.mTitleColor = a.getColor(R.styleable.LoopViewStyle_title_color, Color.WHITE);
         a.recycle();
         init();
@@ -147,10 +142,6 @@ public class FunBanner extends FrameLayout {
             mCirclePageIndicator.setRadius(mFunBannerParams.mDotRadius);
             mCirclePageIndicator.setPageColor(mFunBannerParams.mDotNormalColor);
             mCirclePageIndicator.setFillColor(mFunBannerParams.mDotSelectedColor);
-            mCirclePageIndicator.setPadding(mFunBannerParams.mTitlePadding,
-                    mFunBannerParams.mTitlePadding,
-                    mFunBannerParams.mTitlePadding,
-                    mFunBannerParams.mTitlePadding);
             mCirclePageIndicator.setOnPageChangeListener(mOnPageChangeListener);
             mIndicatorBar.setMinimumHeight(mFunBannerParams.mIndicatorBarHeight);
             mIndicatorBar.setBackgroundColor(mFunBannerParams.mIndicatorBarBackgroundColor);
@@ -298,11 +289,6 @@ public class FunBanner extends FrameLayout {
 
         public Builder setShowIndicator(boolean showIndicator) {
             mFunBannerParams.mShowIndicator = showIndicator;
-            return this;
-        }
-
-        public Builder setPadding(int padding) {
-            mFunBannerParams.mTitlePadding = padding;
             return this;
         }
 

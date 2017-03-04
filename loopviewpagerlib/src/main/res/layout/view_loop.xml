@@ -31,8 +31,8 @@
             android:id="@+id/indicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             app:strokeWidth="0dp"
+            android:padding="3dp"
             app:pageColor="@android:color/white"
             app:fillColor="@android:color/holo_blue_dark"/>
 
