@@ -18,4 +18,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, DemoActivity.class);
         startActivity(intent);
     }
+
+    public void onStartNetworkActivity(View view) {
+        Intent intent = new Intent(this, NetworkActivity.class);
+        startActivity(intent);
+    }
 }

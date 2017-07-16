@@ -1,1 +1,1 @@
-include ':app', ':loopviewpagerlib'
+include ':app', ':lib'
