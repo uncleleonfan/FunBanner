@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 public class FunBanner extends FrameLayout {
     LoopViewPager mVp;
@@ -188,6 +189,9 @@ public class FunBanner extends FrameLayout {
     };
 
     private PagerAdapter mPagerAdapter = new PagerAdapter() {
+
+        private Stack<View> mRecyclerViews = new Stack<>();
+
         @Override
         public int getCount() {
             if (mFunBannerParams.mImageUrls != null) {
@@ -213,7 +217,14 @@ public class FunBanner extends FrameLayout {
                     return null;
                 }
             }
-            ImageView imageView = new ImageView(getContext());
+            ImageView imageView = null;
+            if (mRecyclerViews.isEmpty()) {
+                //Cache is empty, create new ImageView
+                imageView = new ImageView(getContext());
+            } else {
+                //Get ImageView from Cache
+                imageView = (ImageView) mRecyclerViews.pop();
+            }
             if (mFunBannerParams.mImageUrls == null) {
                 imageView.setImageResource(mFunBannerParams.mImagesResIds[position]);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -233,6 +244,7 @@ public class FunBanner extends FrameLayout {
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((View) object);
+            mRecyclerViews.add((View) object);
         }
     };
 
