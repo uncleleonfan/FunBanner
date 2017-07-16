@@ -1,26 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.leon.loopviewpagerlib.FunBanner
-        android:id="@+id/loop_view"
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        app:dot_radius="3dp"
-        app:dot_normal_color="@android:color/white"
-        app:dot_selected_color="@color/colorPrimary"
-        app:enable_auto_loop="true"
-        app:loop_interval="5000"
-        app:show_indicator="true"
-        app:indicator_bar_height="40dp"
-        app:indicator_bar_background_color="#30000000"
-        app:height_width_ratio="0.37777"
-        app:title_color="@android:color/white">
-    </com.leon.loopviewpagerlib.FunBanner>
+        android:layout_height="wrap_content"
+        android:text="FunBanner with native images"
+        android:onClick="onStartNormalActivity"/>
 
 
-</RelativeLayout>
+
+</LinearLayout>
