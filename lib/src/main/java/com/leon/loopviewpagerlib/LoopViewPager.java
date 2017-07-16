@@ -23,6 +23,8 @@ import android.view.MotionEvent;
 
 public class LoopViewPager extends ViewPager {
 
+    private static final String TAG = "LoopViewPager";
+
     private static final boolean DEFAULT_BOUNDARY_CASHING = true;
 
     OnPageChangeListener mOuterPageChangeListener;
@@ -215,17 +217,7 @@ public class LoopViewPager extends ViewPager {
     	return super.onTouchEvent(ev);//super方法里面实现viewpager的拖动
     }
 
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        startLoop();
-    }
 
-    private void startLoop() {
-        if (mEnableAutoLoop) {
-            postDelayed(mLooper, mLoopInterval);
-        }
-    }
 
     private Runnable mLooper = new Runnable() {
         @Override
@@ -237,14 +229,28 @@ public class LoopViewPager extends ViewPager {
     };
 
     @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        startLoop();
+    }
+
+    private void startLoop() {
+        //Fix issue that when user scroll FunBanner offscreen and then destroy activity, the onDetachedFromWindow will not call
+        if (mEnableAutoLoop) {
+            postDelayed(mLooper, mLoopInterval);
+        }
+    }
+
+    @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         stopLoop();
     }
 
-    private void stopLoop() {
+    public void stopLoop() {
         if (mEnableAutoLoop) {
             removeCallbacks(mLooper);
         }
     }
+
 }

@@ -25,7 +25,7 @@ public class FunBannerListActivity extends ListActivity{
         setContentView(R.layout.activity_list);
 
         FunBanner funBanner = new FunBanner.Builder(this).setEnableAutoLoop(true)
-                .setImageResIds(ImagesProvider.NATIVE_IMAGES)
+                .setImageUrls(ImagesProvider.NETWORK_IMAGES)
                 .setIndicatorBackgroundColor(R.color.indicator_bg)
                 .setIndicatorBarHeight(80)
                 .setHeight(400)

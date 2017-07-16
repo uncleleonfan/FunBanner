@@ -1,5 +1,6 @@
 package com.leon.loopviewpagerlib;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -205,6 +206,13 @@ public class FunBanner extends FrameLayout {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
+            //Fix LoopViewPager onDetachFromWindow not called by ListView while sdk is below 25
+            if (getContext() instanceof Activity) {
+                if (((Activity) getContext()).isFinishing()) {
+                    mVp.stopLoop();
+                    return null;
+                }
+            }
             ImageView imageView = new ImageView(getContext());
             if (mFunBannerParams.mImageUrls == null) {
                 imageView.setImageResource(mFunBannerParams.mImagesResIds[position]);
