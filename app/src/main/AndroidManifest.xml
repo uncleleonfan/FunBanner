@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".DemoActivity"/>
         <activity android:name=".NetworkActivity"/>
+        <activity android:name=".FunBannerListActivity"/>
     </application>
 
 </manifest>

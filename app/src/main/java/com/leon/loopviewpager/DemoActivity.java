@@ -14,7 +14,6 @@ import com.leon.loopviewpagerlib.FunBanner;
 
 public class DemoActivity extends AppCompatActivity {
 
-    private int[] imageResIds = {R.mipmap.icon_1, R.mipmap.icon_2, R.mipmap.icon_3, R.mipmap.icon_4, R.mipmap.icon_5};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,7 +26,7 @@ public class DemoActivity extends AppCompatActivity {
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.content_frame);
         FunBanner.Builder builder = new FunBanner.Builder(this);
         FunBanner funBanner = builder.setEnableAutoLoop(true)
-                .setImageResIds(imageResIds)
+                .setImageResIds(ImagesProvider.NATIVE_IMAGES)
                 .setDotSelectedColor(Color.GREEN)
                 .setHeightWidthRatio(0.5556f)
                 .setLoopInterval(5000)

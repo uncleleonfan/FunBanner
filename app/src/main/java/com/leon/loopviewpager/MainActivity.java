@@ -23,4 +23,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, NetworkActivity.class);
         startActivity(intent);
     }
+
+    public void onStartListActivity(View view) {
+        Intent intent = new Intent(this, FunBannerListActivity.class);
+        startActivity(intent);
+    }
 }

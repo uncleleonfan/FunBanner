@@ -19,6 +19,13 @@
         android:text="FunBanner with network images"
         android:onClick="onStartNetworkActivity"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="FunBanner with ListView"
+        android:onClick="onStartListActivity"/>
+
+
 
 
 </LinearLayout>
