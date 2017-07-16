@@ -1,7 +1,6 @@
 package com.leon.loopviewpager;
 
 import android.app.ListActivity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -27,11 +26,9 @@ public class FunBannerListActivity extends ListActivity{
 
         FunBanner funBanner = new FunBanner.Builder(this).setEnableAutoLoop(true)
                 .setImageResIds(ImagesProvider.NATIVE_IMAGES)
-                .setDotSelectedColor(Color.GREEN)
-                .setHeightWidthRatio(0.5556f)
-                .setLoopInterval(5000)
-                .setEnableAutoLoop(true)
                 .setIndicatorBackgroundColor(R.color.indicator_bg)
+                .setIndicatorBarHeight(80)
+                .setHeight(400)
                 .build();
         getListView().addHeaderView(funBanner);
 

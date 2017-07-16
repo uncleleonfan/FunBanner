@@ -42,6 +42,7 @@ public class FunBanner extends FrameLayout {
         private float mHeightWidthRatio;
         private int mIndicatorBarHeight;
         private int mTitleColor;
+        private int mHeight;
 
         public void apply(FunBanner funBanner) {
             funBanner.mFunBannerParams.mEnableAutoLoop = this.mEnableAutoLoop;
@@ -83,6 +84,10 @@ public class FunBanner extends FrameLayout {
             if (this.mTitleColor != 0) {
                 funBanner.mFunBannerParams.mTitleColor = this.mTitleColor;
             }
+
+            if (this.mHeight != 0) {
+                funBanner.mFunBannerParams.mHeight = this.mHeight;
+            }
         }
     }
 
@@ -121,10 +126,11 @@ public class FunBanner extends FrameLayout {
             int height = (int) (size * mFunBannerParams.mHeightWidthRatio + 0.5);
             int changeHeightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
             super.onMeasure(widthMeasureSpec, changeHeightMeasureSpec);
+        } else if (mFunBannerParams.mHeight > 0) {
+            super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(mFunBannerParams.mHeight, MeasureSpec.EXACTLY));
         } else {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
-
     }
 
     private void initViewPager() {
@@ -343,6 +349,11 @@ public class FunBanner extends FrameLayout {
 
         public Builder setTitleColor(int color) {
             mFunBannerParams.mTitleColor = color;
+            return this;
+        }
+
+        public Builder setHeight(int height) {
+            mFunBannerParams.mHeight = height;
             return this;
         }
 
