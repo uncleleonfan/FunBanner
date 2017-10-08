@@ -13,7 +13,7 @@
 
 	//module下的build.gradle
 	dependencies {
-	    compile 'com.github.uncleleonfan:FunBanner:1.1.5'
+	    compile 'com.github.uncleleonfan:FunBanner:1.2.0'
 	}
 
 ## 通过xml配置 ##
